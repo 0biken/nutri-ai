@@ -9,26 +9,25 @@ export default async function DashboardPage() {
   const name = user?.firstName || user?.username || "there";
 
   return (
-    <>
-      <nav className="nav">
-        <div className="nav-inner">
-          <Link href="/" className="logo">
-            <span className="logo-mark">N</span>
-            <span>NutriAI</span>
-          </Link>
-          <div className="nav-actions">
-            <UserButton afterSignOutUrl="/" />
-          </div>
+    <div className="dash-shell">
+      <nav className="landing-nav scrolled" style={{ position: "sticky", background: "#fff", borderBottom: "1px solid rgba(13,31,15,0.08)" }}>
+        <Link className="nav-logo" href="/">
+          <div className="nav-logo-mark">N</div>
+          <span className="nav-logo-name" style={{ color: "var(--forest)" }}>NutriAI</span>
+        </Link>
+        <div className="nav-right">
+          <Link href="/" style={{ fontSize: 14, color: "var(--muted)", textDecoration: "none" }}>← Landing</Link>
+          <UserButton afterSignOutUrl="/" />
         </div>
       </nav>
 
       <div className="dash-wrap">
-        <h1 style={{ fontSize: 32, fontWeight: 800 }}>Welcome, {name}.</h1>
+        <h1 style={{ fontSize: 32, fontWeight: 600, letterSpacing: "-0.02em" }}>Welcome, {name}.</h1>
         <p style={{ color: "var(--muted)", marginTop: 8 }}>
-          Try the four NutriAI features below. Add <code>GEMINI_API_KEY</code> to <code>.env.local</code> to enable real responses.
+          Try the four NutriAI features below. They use Gemini + the Nigerian food stub data.
         </p>
         <Dashboard defaultName={name} />
       </div>
-    </>
+    </div>
   );
 }

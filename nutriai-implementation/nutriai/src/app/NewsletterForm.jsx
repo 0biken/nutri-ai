@@ -47,7 +47,7 @@ export default function NewsletterForm() {
         </button>
       </form>
       {message && (
-        <p className="newsletter-note" style={{ color: status === "error" ? "#ffb38a" : undefined }}>
+        <p className="cta-note" style={{ color: status === "error" ? "#ffb38a" : undefined, marginBottom: 8 }}>
           {message}
         </p>
       )}
