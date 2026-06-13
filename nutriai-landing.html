@@ -1,0 +1,1378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NutriAI — Your AI Nutrition Partner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ── Reset & tokens ──────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --forest:    #0D1F0F;
+  --forest-2:  #152918;
+  --forest-3:  #1E3420;
+  --vitality:  #A8E063;
+  --vitality-d:#7AB83E;
+  --warm-white:#F5F0E8;
+  --suya:      #E8651A;
+  --body-text: #2C3A2A;
+  --muted:     #6B7E67;
+  --border:    rgba(168,224,99,0.15);
+  --font: 'Inter', system-ui, sans-serif;
+  --ease: cubic-bezier(.22,1,.36,1);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font);
+  background: var(--warm-white);
+  color: var(--body-text);
+  overflow-x: hidden;
+}
+
+/* ── Nav ─────────────────────────────────────────── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 0 5%;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: background 0.4s var(--ease), border-bottom 0.4s;
+}
+nav.scrolled {
+  background: rgba(13,31,15,0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+.nav-logo-mark {
+  width: 34px; height: 34px;
+  background: var(--vitality);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; font-weight: 600;
+  color: var(--forest);
+  letter-spacing: -.02em;
+}
+.nav-logo-name {
+  font-size: 17px; font-weight: 600;
+  color: var(--warm-white);
+  letter-spacing: -.02em;
+}
+.nav-links {
+  display: flex; gap: 32px;
+  list-style: none;
+}
+.nav-links a {
+  font-size: 14px;
+  color: rgba(245,240,232,0.65);
+  text-decoration: none;
+  transition: color .2s;
+}
+.nav-links a:hover { color: var(--warm-white); }
+.nav-cta {
+  background: var(--vitality);
+  color: var(--forest);
+  border: none;
+  border-radius: 99px;
+  padding: 9px 20px;
+  font-size: 13px; font-weight: 600;
+  cursor: pointer;
+  transition: background .2s, transform .15s;
+  font-family: var(--font);
+}
+.nav-cta:hover { background: #b8ea73; transform: scale(1.03); }
+
+/* ── Hero ────────────────────────────────────────── */
+#hero {
+  min-height: 100vh;
+  background: var(--forest);
+  display: flex;
+  align-items: center;
+  padding: 0 5%;
+  padding-top: 64px;
+  position: relative;
+  overflow: hidden;
+}
+.hero-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+  max-width: 1100px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 80px 0;
+}
+.hero-left { position: relative; z-index: 2; }
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(168,224,99,0.12);
+  border: 1px solid rgba(168,224,99,0.25);
+  border-radius: 99px;
+  padding: 5px 14px;
+  font-size: 11px; font-weight: 600;
+  color: var(--vitality);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+.hero-eyebrow span { width: 6px; height: 6px; background: var(--vitality); border-radius: 50%; display: inline-block; animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+
+.hero-headline {
+  font-size: clamp(38px, 5vw, 58px);
+  font-weight: 600;
+  color: var(--warm-white);
+  line-height: 1.08;
+  letter-spacing: -.03em;
+  margin-bottom: 8px;
+}
+.hero-headline .accent { color: var(--vitality); }
+.hero-sub {
+  font-size: 17px;
+  color: rgba(245,240,232,0.6);
+  line-height: 1.65;
+  margin: 20px 0 36px;
+  max-width: 420px;
+}
+.hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn-primary {
+  background: var(--vitality);
+  color: var(--forest);
+  border: none;
+  border-radius: 99px;
+  padding: 14px 28px;
+  font-size: 15px; font-weight: 600;
+  cursor: pointer;
+  font-family: var(--font);
+  transition: background .2s, transform .15s;
+}
+.btn-primary:hover { background: #b8ea73; transform: translateY(-1px); }
+.btn-ghost {
+  background: transparent;
+  color: rgba(245,240,232,0.7);
+  border: 1px solid rgba(245,240,232,0.2);
+  border-radius: 99px;
+  padding: 14px 28px;
+  font-size: 15px;
+  cursor: pointer;
+  font-family: var(--font);
+  transition: border-color .2s, color .2s;
+}
+.btn-ghost:hover { border-color: rgba(245,240,232,.5); color: var(--warm-white); }
+
+/* Ticker */
+.ticker-wrap {
+  overflow: hidden;
+  margin: 48px 0 0;
+  mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
+}
+.ticker {
+  display: flex;
+  gap: 32px;
+  animation: ticker 22s linear infinite;
+  width: max-content;
+}
+.ticker-item {
+  font-size: 12px; font-weight: 500;
+  color: rgba(168,224,99,0.45);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.ticker-item::before { content: '·'; margin-right: 32px; }
+@keyframes ticker { to { transform: translateX(-50%); } }
+
+/* Phone mockup */
+.hero-phone-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+.phone-frame {
+  width: 260px;
+  background: var(--forest-3);
+  border-radius: 36px;
+  border: 1px solid rgba(168,224,99,0.2);
+  padding: 16px;
+  position: relative;
+  box-shadow: 0 60px 120px rgba(0,0,0,0.5);
+}
+.phone-notch {
+  width: 80px; height: 24px;
+  background: var(--forest);
+  border-radius: 12px;
+  margin: 0 auto 14px;
+}
+.phone-screen {
+  background: #0a1a0b;
+  border-radius: 22px;
+  padding: 16px;
+  min-height: 420px;
+  position: relative;
+  overflow: hidden;
+}
+.phone-screen-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 16px;
+}
+.ps-title { font-size: 13px; font-weight: 600; color: var(--warm-white); }
+.ps-date { font-size: 11px; color: var(--muted); }
+.macro-row { display: flex; gap: 8px; margin-bottom: 16px; }
+.macro-pill {
+  flex: 1;
+  background: var(--forest-2);
+  border-radius: 10px;
+  padding: 10px 8px;
+  text-align: center;
+  border: 1px solid var(--border);
+}
+.macro-val { font-size: 16px; font-weight: 600; color: var(--vitality); }
+.macro-label { font-size: 9px; color: var(--muted); margin-top: 2px; text-transform: uppercase; letter-spacing: .05em; }
+.meal-list { display: flex; flex-direction: column; gap: 8px; }
+.meal-item {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--forest-2);
+  border-radius: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+}
+.meal-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.meal-name { font-size: 12px; color: var(--warm-white); flex: 1; }
+.meal-kcal { font-size: 11px; color: var(--muted); }
+.phone-glow {
+  position: absolute;
+  width: 200px; height: 200px;
+  background: radial-gradient(circle, rgba(168,224,99,0.08) 0%, transparent 70%);
+  top: -50px; right: -50px;
+  pointer-events: none;
+}
+
+/* ── Stats bar ───────────────────────────────────── */
+#stats {
+  background: var(--warm-white);
+  padding: 60px 5%;
+  border-bottom: 1px solid rgba(44,58,42,0.08);
+}
+.stats-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  text-align: center;
+}
+.stat-block {}
+.stat-num {
+  font-size: 42px; font-weight: 600;
+  color: var(--forest);
+  letter-spacing: -.03em;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.stat-num .stat-accent { color: var(--suya); }
+.stat-desc {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.55;
+  max-width: 200px;
+  margin: 0 auto;
+}
+.stat-divider {
+  width: 1px;
+  background: rgba(44,58,42,0.1);
+  align-self: stretch;
+  display: none;
+}
+
+/* ── Feature sections (scroll-pinned) ───────────────── */
+.feature-section {
+  min-height: 100vh;
+  background: var(--forest);
+  display: flex;
+  align-items: center;
+  padding: 100px 5%;
+}
+.feature-section.light {
+  background: var(--warm-white);
+}
+.feature-inner {
+  max-width: 1100px; margin: 0 auto; width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+.feature-inner.reverse { direction: rtl; }
+.feature-inner.reverse > * { direction: ltr; }
+.feature-tag {
+  display: inline-block;
+  font-size: 10px; font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--vitality);
+  background: rgba(168,224,99,0.12);
+  border: 1px solid rgba(168,224,99,0.2);
+  border-radius: 99px;
+  padding: 4px 12px;
+  margin-bottom: 20px;
+}
+.feature-section.light .feature-tag {
+  color: var(--forest);
+  background: rgba(13,31,15,0.07);
+  border-color: rgba(13,31,15,0.15);
+}
+.feature-headline {
+  font-size: clamp(28px, 3.5vw, 42px);
+  font-weight: 600;
+  color: var(--warm-white);
+  letter-spacing: -.025em;
+  line-height: 1.15;
+  margin-bottom: 16px;
+}
+.feature-section.light .feature-headline { color: var(--forest); }
+.feature-body {
+  font-size: 16px;
+  color: rgba(245,240,232,0.6);
+  line-height: 1.7;
+  margin-bottom: 32px;
+  max-width: 420px;
+}
+.feature-section.light .feature-body { color: var(--muted); }
+
+.feature-points { display: flex; flex-direction: column; gap: 12px; }
+.fp {
+  display: flex; gap: 12px; align-items: flex-start;
+}
+.fp-dot {
+  width: 20px; height: 20px;
+  background: rgba(168,224,99,0.15);
+  border: 1px solid rgba(168,224,99,0.3);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-top: 2px;
+}
+.fp-dot svg { width: 10px; height: 10px; stroke: var(--vitality); }
+.feature-section.light .fp-dot {
+  background: rgba(13,31,15,0.07);
+  border-color: rgba(13,31,15,.15);
+}
+.feature-section.light .fp-dot svg { stroke: var(--forest); }
+.fp-text { font-size: 14px; color: rgba(245,240,232,0.7); line-height: 1.55; }
+.feature-section.light .fp-text { color: var(--muted); }
+
+/* Feature phone screens */
+.feat-phone {
+  width: 240px; margin: 0 auto;
+  background: var(--forest-3);
+  border-radius: 32px;
+  border: 1px solid rgba(168,224,99,0.18);
+  padding: 14px;
+  box-shadow: 0 40px 80px rgba(0,0,0,0.4);
+}
+.feature-section.light .feat-phone {
+  background: #e8e2d8;
+  border-color: rgba(44,58,42,0.15);
+  box-shadow: 0 40px 80px rgba(44,58,42,0.12);
+}
+.feat-notch {
+  width: 70px; height: 20px;
+  background: var(--forest);
+  border-radius: 10px;
+  margin: 0 auto 12px;
+}
+.feature-section.light .feat-notch { background: #cac5bb; }
+.feat-screen {
+  background: #0a1a0b;
+  border-radius: 20px;
+  padding: 14px;
+  min-height: 380px;
+}
+.feature-section.light .feat-screen { background: #f9f5ec; }
+
+/* Scan screen */
+.scan-viewfinder {
+  width: 100%; aspect-ratio: 1;
+  background: var(--forest-2);
+  border-radius: 14px;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 12px;
+  display: flex; align-items: center; justify-content: center;
+}
+.scan-corner {
+  position: absolute;
+  width: 20px; height: 20px;
+  border-color: var(--vitality);
+  border-style: solid;
+  border-width: 0;
+}
+.sc-tl { top: 8px; left: 8px; border-top-width: 2px; border-left-width: 2px; border-top-left-radius: 4px; }
+.sc-tr { top: 8px; right: 8px; border-top-width: 2px; border-right-width: 2px; border-top-right-radius: 4px; }
+.sc-bl { bottom: 8px; left: 8px; border-bottom-width: 2px; border-left-width: 2px; border-bottom-left-radius: 4px; }
+.sc-br { bottom: 8px; right: 8px; border-bottom-width: 2px; border-right-width: 2px; border-bottom-right-radius: 4px; }
+.scan-label-inner { font-size: 10px; color: var(--vitality); letter-spacing: .06em; text-transform: uppercase; }
+.scan-line {
+  position: absolute; left: 0; right: 0;
+  height: 1px; background: var(--vitality);
+  opacity: 0.6;
+  animation: scanline 2.5s ease-in-out infinite;
+}
+@keyframes scanline { 0%,100%{top:10%} 50%{top:85%} }
+.scan-result {
+  background: var(--forest-2);
+  border-radius: 10px;
+  padding: 10px 12px;
+  border: 1px solid rgba(168,224,99,0.25);
+}
+.scan-dish { font-size: 13px; font-weight: 600; color: var(--warm-white); margin-bottom: 6px; }
+.scan-macros { display: flex; gap: 8px; }
+.scan-macro { font-size: 10px; color: var(--muted); }
+.scan-macro span { color: var(--vitality); font-weight: 600; }
+
+/* Cycle screen */
+.cycle-phases { display: flex; gap: 4px; margin-bottom: 14px; }
+.phase-pill {
+  flex: 1; text-align: center;
+  font-size: 8px; font-weight: 600;
+  padding: 5px 0;
+  border-radius: 99px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.phase-pill.active { background: var(--vitality); color: var(--forest); }
+.phase-pill.inactive { background: var(--forest-2); color: var(--muted); border: 1px solid var(--border); }
+.cycle-rec { display: flex; flex-direction: column; gap: 7px; }
+.cycle-food {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--forest-2);
+  border-radius: 8px;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+}
+.cf-icon { font-size: 16px; }
+.cf-text { flex: 1; }
+.cf-name { font-size: 11px; font-weight: 600; color: var(--warm-white); }
+.cf-reason { font-size: 9px; color: var(--muted); margin-top: 1px; }
+.cf-badge { font-size: 9px; font-weight: 600; color: var(--vitality); background: rgba(168,224,99,0.1); border-radius: 99px; padding: 2px 7px; }
+
+/* Budget screen */
+.budget-header { margin-bottom: 12px; }
+.budget-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 4px; }
+.budget-val { font-size: 22px; font-weight: 600; color: var(--vitality); letter-spacing: -.02em; }
+.budget-bar-wrap { background: var(--forest-2); border-radius: 99px; height: 4px; margin: 10px 0 14px; overflow: hidden; }
+.budget-bar-fill { height: 100%; width: 62%; background: var(--vitality); border-radius: 99px; }
+.budget-meals { display: flex; flex-direction: column; gap: 7px; }
+.budget-meal {
+  display: flex; align-items: center;
+  background: var(--forest-2);
+  border-radius: 8px;
+  padding: 9px 11px;
+  border: 1px solid var(--border);
+  gap: 8px;
+}
+.bm-name { font-size: 11px; font-weight: 500; color: var(--warm-white); flex: 1; }
+.bm-cost { font-size: 10px; color: var(--vitality); font-weight: 600; }
+
+/* ── Who it's for ────────────────────────────────── */
+#personas {
+  background: var(--warm-white);
+  padding: 100px 5%;
+}
+.personas-inner { max-width: 1100px; margin: 0 auto; }
+.section-eyebrow {
+  font-size: 11px; font-weight: 600;
+  letter-spacing: .09em; text-transform: uppercase;
+  color: var(--suya);
+  margin-bottom: 16px;
+}
+.section-title {
+  font-size: clamp(28px, 3vw, 40px);
+  font-weight: 600;
+  color: var(--forest);
+  letter-spacing: -.025em;
+  line-height: 1.15;
+  margin-bottom: 48px;
+  max-width: 520px;
+}
+.persona-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+}
+.persona-card {
+  background: var(--forest);
+  border-radius: 16px;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+  transition: transform .3s var(--ease);
+}
+.persona-card:hover { transform: translateY(-4px); }
+.persona-avatar {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: rgba(168,224,99,0.15);
+  border: 1px solid rgba(168,224,99,0.25);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  margin-bottom: 14px;
+}
+.persona-name { font-size: 14px; font-weight: 600; color: var(--warm-white); margin-bottom: 4px; }
+.persona-need { font-size: 11px; color: rgba(245,240,232,0.45); margin-bottom: 12px; }
+.persona-tag {
+  display: inline-block;
+  font-size: 9px; font-weight: 600;
+  letter-spacing: .07em; text-transform: uppercase;
+  background: rgba(168,224,99,0.12);
+  color: var(--vitality);
+  border-radius: 99px;
+  padding: 3px 10px;
+  border: 1px solid rgba(168,224,99,0.2);
+}
+
+/* ── Food database ───────────────────────────────── */
+#fooddb {
+  background: var(--forest);
+  padding: 100px 5%;
+  text-align: center;
+  overflow: hidden;
+}
+.fooddb-inner { max-width: 700px; margin: 0 auto; }
+.fooddb-eyebrow {
+  font-size: 11px; font-weight: 600;
+  letter-spacing: .09em; text-transform: uppercase;
+  color: var(--vitality);
+  margin-bottom: 16px;
+}
+.fooddb-title {
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 600;
+  color: var(--warm-white);
+  letter-spacing: -.03em;
+  line-height: 1.1;
+  margin-bottom: 16px;
+}
+.fooddb-title .num { color: var(--vitality); }
+.fooddb-sub {
+  font-size: 16px;
+  color: rgba(245,240,232,0.5);
+  margin-bottom: 60px;
+}
+.food-cloud {
+  display: flex; flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  max-width: 720px; margin: 0 auto;
+}
+.food-tag {
+  font-size: 13px;
+  color: rgba(245,240,232,0.55);
+  background: rgba(245,240,232,0.05);
+  border: 1px solid rgba(245,240,232,0.1);
+  border-radius: 99px;
+  padding: 6px 16px;
+  transition: color .3s, border-color .3s, background .3s;
+  cursor: default;
+}
+.food-tag:hover,
+.food-tag.lit {
+  color: var(--vitality);
+  border-color: rgba(168,224,99,0.4);
+  background: rgba(168,224,99,0.07);
+}
+
+/* ── Clinical credibility ────────────────────────── */
+#clinical {
+  background: var(--warm-white);
+  padding: 80px 5%;
+  text-align: center;
+  border-bottom: 1px solid rgba(44,58,42,0.08);
+}
+.clinical-inner { max-width: 900px; margin: 0 auto; }
+.clinical-label {
+  font-size: 11px; font-weight: 600;
+  letter-spacing: .09em; text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 32px;
+}
+.partners-row {
+  display: flex; flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 52px;
+}
+.partner-badge {
+  font-size: 12px; font-weight: 600;
+  color: var(--forest);
+  background: rgba(13,31,15,0.06);
+  border: 1px solid rgba(13,31,15,0.12);
+  border-radius: 8px;
+  padding: 10px 18px;
+}
+.pullquote {
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--forest);
+  line-height: 1.5;
+  letter-spacing: -.01em;
+  max-width: 620px; margin: 0 auto 16px;
+}
+.pullquote-attr {
+  font-size: 13px; color: var(--muted);
+}
+
+/* ── Pricing ─────────────────────────────────────── */
+#pricing {
+  background: var(--warm-white);
+  padding: 100px 5%;
+}
+.pricing-inner { max-width: 900px; margin: 0 auto; }
+.pricing-title {
+  font-size: clamp(28px, 3vw, 40px);
+  font-weight: 600;
+  color: var(--forest);
+  letter-spacing: -.025em;
+  margin-bottom: 48px;
+  text-align: center;
+}
+.pricing-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+.price-card {
+  border-radius: 20px;
+  padding: 32px;
+  border: 1px solid rgba(44,58,42,0.12);
+  background: #fff;
+}
+.price-card.premium {
+  background: var(--forest);
+  border-color: transparent;
+}
+.price-tier {
+  font-size: 11px; font-weight: 600;
+  letter-spacing: .09em; text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+.price-card.premium .price-tier { color: rgba(168,224,99,0.6); }
+.price-amount {
+  font-size: 36px; font-weight: 600;
+  color: var(--forest);
+  letter-spacing: -.03em;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.price-card.premium .price-amount { color: var(--vitality); }
+.price-period { font-size: 13px; color: var(--muted); margin-bottom: 24px; }
+.price-card.premium .price-period { color: rgba(245,240,232,0.4); }
+.price-features { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
+.price-features li {
+  display: flex; gap: 9px; align-items: center;
+  font-size: 13px; color: var(--body-text);
+}
+.price-card.premium .price-features li { color: rgba(245,240,232,0.75); }
+.price-features li::before {
+  content: '';
+  width: 5px; height: 5px;
+  background: var(--vitality-d);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.price-card.premium .price-features li::before { background: var(--vitality); }
+.price-btn {
+  width: 100%;
+  padding: 13px;
+  border-radius: 99px;
+  font-size: 14px; font-weight: 600;
+  cursor: pointer;
+  font-family: var(--font);
+  transition: .2s;
+}
+.price-btn.free {
+  background: transparent;
+  border: 1px solid rgba(44,58,42,0.2);
+  color: var(--forest);
+}
+.price-btn.free:hover { background: rgba(13,31,15,0.05); }
+.price-btn.paid {
+  background: var(--vitality);
+  border: none;
+  color: var(--forest);
+}
+.price-btn.paid:hover { background: #b8ea73; }
+.opay-note {
+  text-align: center;
+  font-size: 13px; color: var(--muted);
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.opay-badge {
+  background: rgba(13,31,15,0.07);
+  border: 1px solid rgba(13,31,15,0.12);
+  border-radius: 99px;
+  padding: 4px 12px;
+  font-size: 11px; font-weight: 600;
+  color: var(--forest);
+}
+
+/* ── Final CTA ───────────────────────────────────── */
+#final-cta {
+  background: var(--forest);
+  padding: 120px 5%;
+  text-align: center;
+}
+.cta-inner { max-width: 600px; margin: 0 auto; }
+.cta-headline {
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 600;
+  color: var(--warm-white);
+  letter-spacing: -.03em;
+  line-height: 1.1;
+  margin-bottom: 16px;
+}
+.cta-headline .accent { color: var(--vitality); }
+.cta-sub {
+  font-size: 16px;
+  color: rgba(245,240,232,0.5);
+  margin-bottom: 40px;
+  line-height: 1.65;
+}
+.waitlist-form {
+  display: flex; gap: 10px;
+  max-width: 440px; margin: 0 auto 20px;
+}
+.waitlist-input {
+  flex: 1;
+  background: rgba(245,240,232,0.08);
+  border: 1px solid rgba(245,240,232,0.15);
+  border-radius: 99px;
+  padding: 14px 22px;
+  font-size: 14px;
+  color: var(--warm-white);
+  font-family: var(--font);
+  outline: none;
+  transition: border-color .2s;
+}
+.waitlist-input::placeholder { color: rgba(245,240,232,0.3); }
+.waitlist-input:focus { border-color: rgba(168,224,99,0.5); }
+.waitlist-btn {
+  background: var(--vitality);
+  color: var(--forest);
+  border: none;
+  border-radius: 99px;
+  padding: 14px 22px;
+  font-size: 14px; font-weight: 600;
+  cursor: pointer;
+  font-family: var(--font);
+  white-space: nowrap;
+  transition: background .2s;
+}
+.waitlist-btn:hover { background: #b8ea73; }
+.cta-note { font-size: 12px; color: rgba(245,240,232,0.3); }
+
+/* ── Footer ──────────────────────────────────────── */
+footer {
+  background: #090f09;
+  padding: 40px 5%;
+  border-top: 1px solid rgba(168,224,99,0.08);
+}
+.footer-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 16px;
+}
+.footer-logo {
+  display: flex; align-items: center; gap: 8px;
+  text-decoration: none;
+}
+.footer-logo-mark {
+  width: 28px; height: 28px;
+  background: var(--vitality);
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 600; color: var(--forest);
+}
+.footer-logo-name {
+  font-size: 15px; font-weight: 600;
+  color: rgba(245,240,232,0.7);
+}
+.footer-tagline {
+  font-size: 12px; color: rgba(245,240,232,0.3);
+  text-align: center;
+}
+.footer-links {
+  display: flex; gap: 20px; list-style: none;
+}
+.footer-links a {
+  font-size: 12px; color: rgba(245,240,232,0.3);
+  text-decoration: none;
+  transition: color .2s;
+}
+.footer-links a:hover { color: rgba(245,240,232,0.7); }
+
+/* ── Scroll reveal ───────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+
+/* ── Responsive ──────────────────────────────────── */
+@media (max-width: 768px) {
+  .hero-inner, .feature-inner { grid-template-columns: 1fr; gap: 40px; }
+  .feature-inner.reverse { direction: ltr; }
+  .hero-phone-wrap { display: none; }
+  .stats-inner { grid-template-columns: 1fr; gap: 32px; }
+  .pricing-grid { grid-template-columns: 1fr; }
+  .waitlist-form { flex-direction: column; }
+  .footer-inner { flex-direction: column; text-align: center; }
+  .footer-links { justify-content: center; }
+  .nav-links { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ticker, .scan-line { animation: none; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="main-nav">
+  <a class="nav-logo" href="#">
+    <div class="nav-logo-mark">N</div>
+    <span class="nav-logo-name">NutriAI</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#snap">How it works</a></li>
+    <li><a href="#personas">For you</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+  </ul>
+  <button class="nav-cta" onclick="document.getElementById('final-cta').scrollIntoView({behavior:'smooth'})">
+    Join waitlist
+  </button>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-eyebrow">
+        <span></span> Nigeria's first AI nutrition partner
+      </div>
+      <h1 class="hero-headline">
+        Eat well.<br>
+        <span class="accent">Actually</span> eat well.
+      </h1>
+      <p class="hero-sub">
+        NutriAI knows egusi soup, not kale salads. Clinically intelligent nutrition built for Nigerian bodies, budgets, and hormones.
+      </p>
+      <div class="hero-actions">
+        <button class="btn-primary" onclick="document.getElementById('final-cta').scrollIntoView({behavior:'smooth'})">
+          Join the waitlist
+        </button>
+        <button class="btn-ghost" onclick="document.getElementById('snap').scrollIntoView({behavior:'smooth'})">
+          See how it works
+        </button>
+      </div>
+      <div class="ticker-wrap">
+        <div class="ticker" id="ticker"></div>
+      </div>
+    </div>
+    <div class="hero-phone-wrap">
+      <div class="phone-frame">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <div class="phone-glow"></div>
+          <div class="phone-screen-header">
+            <span class="ps-title">Today's plan</span>
+            <span class="ps-date">Thursday</span>
+          </div>
+          <div class="macro-row">
+            <div class="macro-pill">
+              <div class="macro-val">1,840</div>
+              <div class="macro-label">Calories</div>
+            </div>
+            <div class="macro-pill">
+              <div class="macro-val">94g</div>
+              <div class="macro-label">Protein</div>
+            </div>
+            <div class="macro-pill">
+              <div class="macro-val">₦1,200</div>
+              <div class="macro-label">Cost</div>
+            </div>
+          </div>
+          <div class="meal-list">
+            <div class="meal-item">
+              <div class="meal-dot" style="background:#A8E063"></div>
+              <span class="meal-name">Pap with akara</span>
+              <span class="meal-kcal">380 kcal</span>
+            </div>
+            <div class="meal-item">
+              <div class="meal-dot" style="background:#E8651A"></div>
+              <span class="meal-name">Egusi soup + eba</span>
+              <span class="meal-kcal">620 kcal</span>
+            </div>
+            <div class="meal-item">
+              <div class="meal-dot" style="background:#A8E063"></div>
+              <span class="meal-name">Grilled titus + rice</span>
+              <span class="meal-kcal">540 kcal</span>
+            </div>
+            <div class="meal-item">
+              <div class="meal-dot" style="background:#6B7E67"></div>
+              <span class="meal-name">Zobo + groundnuts</span>
+              <span class="meal-kcal">300 kcal</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<section id="stats">
+  <div class="stats-inner">
+    <div class="stat-block reveal">
+      <div class="stat-num"><span class="stat-accent" data-target="38">0</span>%</div>
+      <div class="stat-desc">of Nigerian adults live with hypertension. No Nigerian app addresses it.</div>
+    </div>
+    <div class="stat-block reveal reveal-delay-1">
+      <div class="stat-num"><span style="color:var(--suya)">&lt;</span><span data-target="50">0</span></div>
+      <div class="stat-desc">Nigerian foods in MyFitnessPal. NutriAI has over 2,000.</div>
+    </div>
+    <div class="stat-block reveal reveal-delay-2">
+      <div class="stat-num"><span class="stat-accent" data-target="67">0</span>%</div>
+      <div class="stat-desc">of pregnant Nigerian women have anemia. Nutrition is the intervention.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURE 1: SNAP & SCAN -->
+<section class="feature-section" id="snap">
+  <div class="feature-inner">
+    <div class="reveal">
+      <div class="feature-tag">Snap &amp; Scan</div>
+      <h2 class="feature-headline">Point. Shoot.<br>Logged.</h2>
+      <p class="feature-body">Photograph any Nigerian dish and NutriAI identifies it instantly — full macros, micros, glycemic index. No more approximating jollof rice as "tomato rice."</p>
+      <div class="feature-points">
+        <div class="fp">
+          <div class="fp-dot"><svg viewBox="0 0 12 12" fill="none" stroke-width="2" stroke-linecap="round"><polyline points="2,6 5,9 10,3"/></svg></div>
+          <span class="fp-text">Trained on 200+ Nigerian dish categories — Buka portions vs home-cooked</span>
+        </div>
+        <div class="fp">
+          <div class="fp-dot"><svg viewBox="0 0 12 12" fill="none" stroke-width="2" stroke-linecap="round"><polyline points="2,6 5,9 10,3"/></svg></div>
+          <span class="fp-text">Logs in under 3 seconds. No manual entry, no database searching</span>
+        </div>
+        <div class="fp">
+          <div class="fp-dot"><svg viewBox="0 0 12 12" fill="none" stroke-width="2" stroke-linecap="round"><polyline points="2,6 5,9 10,3"/></svg></div>
+          <span class="fp-text">Works offline — inference runs on-device with Gemini Vision</span>
+        </div>
+      </div>
+    </div>
+    <div class="reveal reveal-delay-1" style="display:flex;justify-content:center">
+      <div class="feat-phone">
+        <div class="feat-notch"></div>
+        <div class="feat-screen">
+          <div class="scan-viewfinder">
+            <div class="scan-corner sc-tl"></div>
+            <div class="scan-corner sc-tr"></div>
+            <div class="scan-corner sc-bl"></div>
+            <div class="scan-corner sc-br"></div>
+            <div class="scan-line"></div>
+            <span class="scan-label-inner">Scanning dish…</span>
+          </div>
+          <div class="scan-result">
+            <div class="scan-dish">Egusi soup + pounded yam</div>
+            <div class="scan-macros">
+              <span class="scan-macro">Cal: <span>687</span></span>
+              <span class="scan-macro">Carbs: <span>82g</span></span>
+              <span class="scan-macro">Protein: <span>24g</span></span>
+              <span class="scan-macro">Fat: <span>28g</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURE 2: CYCLE SYNC -->
+<section class="feature-section light" id="cycle">
+  <div class="feature-inner reverse">
+    <div class="reveal">
+      <div class="feature-tag">Cycle sync</div>
+      <h2 class="feature-headline">Your hormones<br>change. Your meals<br>should too.</h2>
+      <p class="feature-body">The first African nutrition app to adapt your meal plan to your menstrual cycle — four phases, four nutrition strategies, all built around Nigerian food.</p>
+      <div class="feature-points">
+        <div class="fp">
+          <div class="fp-dot"><svg viewBox="0 0 12 12" fill="none" stroke-width="2" stroke-linecap="round"><polyline points="2,6 5,9 10,3"/></svg></div>
+          <span class="fp-text">Menstrual phase: iron-rich ugu soup and zobo to combat blood loss</span>
+        </div>
+        <div class="fp">
+          <div class="fp-dot"><svg viewBox="0 0 12 12" fill="none" stroke-width="2" stroke-linecap="round"><polyline points="2,6 5,9 10,3"/></svg></div>
+          <span class="fp-text">Luteal phase: magnesium-rich plantain and groundnut soup for PMS</span>
+        </div>
+        <div class="fp">
+          <div class="fp-dot"><svg viewBox="0 0 12 12" fill="none" stroke-width="2" stroke-linecap="round"><polyline points="2,6 5,9 10,3"/></svg></div>
+          <span class="fp-text">PCOS-specific protocol targeting insulin sensitivity throughout the month</span>
+        </div>
+      </div>
+    </div>
+    <div class="reveal reveal-delay-1" style="display:flex;justify-content:center">
+      <div class="feat-phone">
+        <div class="feat-notch"></div>
+        <div class="feat-screen" style="background:#f9f5ec">
+          <div style="font-size:11px;font-weight:600;color:#2C3A2A;margin-bottom:10px">Cycle nutrition · Day 18</div>
+          <div class="cycle-phases">
+            <div class="phase-pill inactive">Mens.</div>
+            <div class="phase-pill inactive">Follic.</div>
+            <div class="phase-pill inactive">Ovul.</div>
+            <div class="phase-pill active" style="background:#0D1F0F;color:#A8E063">Luteal</div>
+          </div>
+          <div style="font-size:10px;color:#6B7E67;margin-bottom:10px">Focus: magnesium · complex carbs · mood</div>
+          <div class="cycle-rec">
+            <div class="cycle-food" style="background:#e8e2d8;border-color:rgba(44,58,42,0.12)">
+              <span class="cf-icon">🍌</span>
+              <div class="cf-text">
+                <div class="cf-name" style="color:#0D1F0F">Ripe plantain</div>
+                <div class="cf-reason">Magnesium for PMS relief</div>
+              </div>
+              <span class="cf-badge" style="background:rgba(13,31,15,0.08);color:#3B6D11">+Mg</span>
+            </div>
+            <div class="cycle-food" style="background:#e8e2d8;border-color:rgba(44,58,42,0.12)">
+              <span class="cf-icon">🥜</span>
+              <div class="cf-text">
+                <div class="cf-name" style="color:#0D1F0F">Groundnut soup</div>
+                <div class="cf-reason">B-vitamins for mood support</div>
+              </div>
+              <span class="cf-badge" style="background:rgba(13,31,15,0.08);color:#3B6D11">+B6</span>
+            </div>
+            <div class="cycle-food" style="background:#e8e2d8;border-color:rgba(44,58,42,0.12)">
+              <span class="cf-icon">🌾</span>
+              <div class="cf-text">
+                <div class="cf-name" style="color:#0D1F0F">Pap with milk</div>
+                <div class="cf-reason">Tryptophan → serotonin</div>
+              </div>
+              <span class="cf-badge" style="background:rgba(13,31,15,0.08);color:#3B6D11">+Mood</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURE 3: BUDGET -->
+<section class="feature-section" id="budget">
+  <div class="feature-inner">
+    <div class="reveal">
+      <div class="feature-tag">Budget intelligence</div>
+      <h2 class="feature-headline">₦15,000 a month.<br>Still eating well.</h2>
+      <p class="feature-body">NutriAI treats your budget as a clinical input, not an afterthought. Every meal plan is costed in real-time. If something is out of reach, a clinically equivalent substitute appears automatically.</p>
+      <div class="feature-points">
+        <div class="fp">
+          <div class="fp-dot"><svg viewBox="0 0 12 12" fill="none" stroke-width="2" stroke-linecap="round"><polyline points="2,6 5,9 10,3"/></svg></div>
+          <span class="fp-text">Real-time pricing via market data — not guesswork</span>
+        </div>
+        <div class="fp">
+          <div class="fp-dot"><svg viewBox="0 0 12 12" fill="none" stroke-width="2" stroke-linecap="round"><polyline points="2,6 5,9 10,3"/></svg></div>
+          <span class="fp-text">Smart substitutes maintain clinical targets within any budget</span>
+        </div>
+        <div class="fp">
+          <div class="fp-dot"><svg viewBox="0 0 12 12" fill="none" stroke-width="2" stroke-linecap="round"><polyline points="2,6 5,9 10,3"/></svg></div>
+          <span class="fp-text">Family planner for up to 12 — one shopping list, multiple health profiles</span>
+        </div>
+      </div>
+    </div>
+    <div class="reveal reveal-delay-1" style="display:flex;justify-content:center">
+      <div class="feat-phone">
+        <div class="feat-notch"></div>
+        <div class="feat-screen">
+          <div class="budget-header">
+            <div class="budget-label">Weekly food budget</div>
+            <div class="budget-val">₦3,500</div>
+          </div>
+          <div class="budget-bar-wrap"><div class="budget-bar-fill"></div></div>
+          <div style="font-size:9px;color:var(--muted);margin-bottom:12px">₦2,180 spent · ₦1,320 remaining</div>
+          <div class="budget-meals">
+            <div class="budget-meal">
+              <span class="bm-name">Akara + ogi (breakfast)</span>
+              <span class="bm-cost">₦280</span>
+            </div>
+            <div class="budget-meal">
+              <span class="bm-name">Beans + plantain</span>
+              <span class="bm-cost">₦420</span>
+            </div>
+            <div class="budget-meal">
+              <span class="bm-name">Ofada rice + stew</span>
+              <span class="bm-cost">₦650</span>
+            </div>
+            <div class="budget-meal" style="border-color:rgba(168,224,99,0.35)">
+              <span class="bm-name" style="color:var(--vitality)">↳ Substitute available</span>
+              <span class="bm-cost" style="color:var(--muted)">−₦180</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHO IT'S FOR -->
+<section id="personas">
+  <div class="personas-inner">
+    <div class="section-eyebrow reveal">Built for everyone</div>
+    <h2 class="section-title reveal reveal-delay-1">One app. Every Nigerian body.</h2>
+    <div class="persona-grid">
+      <div class="persona-card reveal">
+        <div class="persona-avatar">👩‍🎓</div>
+        <div class="persona-name">The student</div>
+        <div class="persona-need">₦15,000/month budget</div>
+        <span class="persona-tag">Budget optimizer</span>
+      </div>
+      <div class="persona-card reveal reveal-delay-1">
+        <div class="persona-avatar">🌸</div>
+        <div class="persona-name">PCOS management</div>
+        <div class="persona-need">Insulin sensitivity</div>
+        <span class="persona-tag">Cycle + clinical</span>
+      </div>
+      <div class="persona-card reveal reveal-delay-2">
+        <div class="persona-avatar">🤰</div>
+        <div class="persona-name">Expecting mother</div>
+        <div class="persona-need">Folate, iron, DHA</div>
+        <span class="persona-tag">Trimester plans</span>
+      </div>
+      <div class="persona-card reveal reveal-delay-1">
+        <div class="persona-avatar">❤️‍🩹</div>
+        <div class="persona-name">Hypertension</div>
+        <div class="persona-need">Sodium control</div>
+        <span class="persona-tag">DASH adapted</span>
+      </div>
+      <div class="persona-card reveal reveal-delay-2">
+        <div class="persona-avatar">💪</div>
+        <div class="persona-name">The athlete</div>
+        <div class="persona-need">Protein surplus</div>
+        <span class="persona-tag">Local protein</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOD DATABASE -->
+<section id="fooddb">
+  <div class="fooddb-inner">
+    <div class="fooddb-eyebrow reveal">The database</div>
+    <h2 class="fooddb-title reveal reveal-delay-1">
+      <span class="num" data-target="2000" data-suffix="+">0</span> Nigerian foods.<br>Zero approximations.
+    </h2>
+    <p class="fooddb-sub reveal reveal-delay-2">Every macro, micro, glycemic load, and preparation variant — boiled, fried, smoked, fermented. If Nigerians eat it, we know it.</p>
+    <div class="food-cloud reveal reveal-delay-2" id="food-cloud"></div>
+  </div>
+</section>
+
+<!-- CLINICAL -->
+<section id="clinical">
+  <div class="clinical-inner">
+    <div class="clinical-label reveal">Clinically validated</div>
+    <div class="partners-row reveal reveal-delay-1">
+      <div class="partner-badge">SOGON</div>
+      <div class="partner-badge">Diabetes Association of Nigeria</div>
+      <div class="partner-badge">Nigerian Hypertension Society</div>
+      <div class="partner-badge">NPHCDA</div>
+      <div class="partner-badge">RDN — Registered Dietitians Nigeria</div>
+    </div>
+    <p class="pullquote reveal reveal-delay-2">"For the first time, a nutrition tool speaks to my patients in food they actually cook. This is what clinical dietary support should look like in Nigeria."</p>
+    <p class="pullquote-attr reveal reveal-delay-2">— Registered Dietitian, University College Hospital, Ibadan</p>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="pricing-inner">
+    <h2 class="pricing-title reveal">Simple, honest pricing.</h2>
+    <div class="pricing-grid">
+      <div class="price-card reveal">
+        <div class="price-tier">Free</div>
+        <div class="price-amount">₦0</div>
+        <div class="price-period">forever</div>
+        <ul class="price-features">
+          <li>Nigerian food tracker (2,000+ foods)</li>
+          <li>Basic meal logging</li>
+          <li>Daily calorie + macro view</li>
+          <li>7-day meal plan (standard)</li>
+          <li>Snap &amp; Scan (5 per day)</li>
+        </ul>
+        <button class="price-btn free">Get started free</button>
+      </div>
+      <div class="price-card premium reveal reveal-delay-1">
+        <div class="price-tier">Premium</div>
+        <div class="price-amount">₦1,500</div>
+        <div class="price-period">per month · via OPay</div>
+        <ul class="price-features">
+          <li>Everything in Free</li>
+          <li>Unlimited Snap &amp; Scan</li>
+          <li>Cycle-synced nutrition</li>
+          <li>Clinical protocols (PCOS, diabetes, hypertension)</li>
+          <li>Budget optimizer + smart substitutes</li>
+          <li>Family household planner (up to 12)</li>
+          <li>AI nutritionist chat (Pidgin, Yoruba, Igbo, Hausa)</li>
+          <li>NutriRewards — earn back 15% monthly</li>
+        </ul>
+        <button class="price-btn paid">Start premium</button>
+      </div>
+    </div>
+    <div class="opay-note reveal">
+      <span>Payments processed seamlessly through</span>
+      <span class="opay-badge">OPay</span>
+      <span>— no card friction</span>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section id="final-cta">
+  <div class="cta-inner">
+    <h2 class="cta-headline reveal">Your body deserves better than a <span class="accent">kale salad.</span></h2>
+    <p class="cta-sub reveal reveal-delay-1">Join the waitlist. Be among the first Nigerians to eat with genuine clinical intelligence — built around the food you actually eat.</p>
+    <div class="waitlist-form reveal reveal-delay-2">
+      <input type="email" class="waitlist-input" placeholder="Enter your email" id="email-input">
+      <button class="waitlist-btn" onclick="handleWaitlist()">Join waitlist</button>
+    </div>
+    <p class="cta-note reveal reveal-delay-2">No spam. We'll notify you when NutriAI launches.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <a class="footer-logo" href="#">
+      <div class="footer-logo-mark">N</div>
+      <span class="footer-logo-name">NutriAI</span>
+    </a>
+    <span class="footer-tagline">Built for Nigerian bodies. Priced for Nigerian budgets. Powered by OPay.</span>
+    <ul class="footer-links">
+      <li><a href="#">Privacy</a></li>
+      <li><a href="#">Terms</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script>
+/* Nav scroll */
+const nav = document.getElementById('main-nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 40);
+});
+
+/* Ticker */
+const foods = ['Egusi soup','Jollof rice','Pounded yam','Suya','Moi moi','Banga soup','Ofada rice','Efo riro','Akara','Ogi / Pap','Ogbono soup','Abacha','Boli','Eba','Amala','Tuwo shinkafa','Zobo','Kunu','Chin chin','Kilishi'];
+const ticker = document.getElementById('ticker');
+const items = [...foods, ...foods].map(f => `<span class="ticker-item">${f}</span>`).join('');
+ticker.innerHTML = items + items;
+
+/* Food cloud */
+const allFoods = ['Egusi soup','Jollof rice','Pounded yam','Suya','Moi moi','Banga soup','Ofada rice','Efo riro','Akara','Ogi','Ogbono','Abacha','Boli','Eba','Amala','Tuwo','Zobo','Kunu','Catfish pepper soup','Oha soup','Edikaikong','Afang soup','Buka stew','Fried plantain','Beans porridge','Yam porridge','Agidi','Ogi baba','Kilishi','Smoked titus','Nkwobi','Ofe onugbu','White soup','Okra soup','Groundnut soup','Vegetable soup','Ugu soup','Millet pap','Semo','Starch'];
+const cloud = document.getElementById('food-cloud');
+allFoods.forEach((f, i) => {
+  const el = document.createElement('span');
+  el.className = 'food-tag';
+  el.textContent = f;
+  el.style.animationDelay = `${i * 0.08}s`;
+  cloud.appendChild(el);
+});
+
+/* Light up food tags randomly */
+const tags = cloud.querySelectorAll('.food-tag');
+setInterval(() => {
+  tags.forEach(t => t.classList.remove('lit'));
+  const picks = Array.from(tags).sort(() => Math.random() - .5).slice(0, 5);
+  picks.forEach(p => p.classList.add('lit'));
+}, 1800);
+
+/* Scroll reveal */
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.12 });
+reveals.forEach(r => observer.observe(r));
+
+/* Count-up numbers */
+function countUp(el, target, suffix = '') {
+  let current = 0;
+  const step = Math.ceil(target / 60);
+  const timer = setInterval(() => {
+    current = Math.min(current + step, target);
+    el.textContent = current.toLocaleString() + suffix;
+    if (current >= target) clearInterval(timer);
+  }, 24);
+}
+
+const numObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const targets = e.target.querySelectorAll('[data-target]');
+      targets.forEach(t => {
+        const val = parseInt(t.dataset.target);
+        const suffix = t.dataset.suffix || '';
+        countUp(t, val, suffix);
+      });
+      numObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.3 });
+
+document.getElementById('stats') && numObs.observe(document.getElementById('stats'));
+document.getElementById('fooddb') && numObs.observe(document.getElementById('fooddb'));
+
+/* Waitlist */
+function handleWaitlist() {
+  const input = document.getElementById('email-input');
+  if (!input.value || !input.value.includes('@')) {
+    input.style.borderColor = 'rgba(232,101,26,0.7)';
+    input.placeholder = 'Enter a valid email';
+    setTimeout(() => { input.style.borderColor = ''; input.placeholder = 'Enter your email'; }, 2000);
+    return;
+  }
+  const btn = document.querySelector('.waitlist-btn');
+  btn.textContent = 'You\'re on the list!';
+  btn.style.background = '#3B6D11';
+  input.value = '';
+  input.placeholder = 'Welcome aboard.';
+}
+</script>
+</body>
+</html>
