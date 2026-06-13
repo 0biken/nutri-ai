@@ -51,7 +51,7 @@ export async function POST(request) {
       return NextResponse.json({ error: "imageBase64 and mimeType required" }, { status: 400 });
     }
 
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-flash-latest" });
     const result = await model.generateContent([
       { inlineData: { mimeType, data: imageBase64 } },
       buildScanPrompt(userContext),
@@ -60,7 +60,7 @@ export async function POST(request) {
     const parsed = JSON.parse(stripFences(result.response.text().trim()));
 
     if (parsed.confidence === "low") {
-      const pro = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
+      const pro = genAI.getGenerativeModel({ model: "gemini-pro-latest" });
       const proRes = await pro.generateContent([
         { inlineData: { mimeType, data: imageBase64 } },
         buildScanPrompt(userContext),

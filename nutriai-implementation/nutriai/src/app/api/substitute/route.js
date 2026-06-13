@@ -103,7 +103,7 @@ export async function POST(request) {
     if (!userMessage) return NextResponse.json({ error: "userMessage required" }, { status: 400 });
 
     const model = genAI.getGenerativeModel({
-      model: "gemini-1.5-flash",
+      model: "gemini-flash-latest",
       tools: TOOLS,
       systemInstruction: `
 You are the Smart Substitutes engine for NutriAI.

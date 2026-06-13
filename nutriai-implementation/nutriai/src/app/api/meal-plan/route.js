@@ -128,7 +128,7 @@ export async function POST(request) {
     });
 
     const model = genAI.getGenerativeModel({
-      model: "gemini-1.5-pro",
+      model: "gemini-pro-latest",
       generationConfig: {
         responseMimeType: "application/json",
         responseSchema: MEAL_PLAN_SCHEMA,

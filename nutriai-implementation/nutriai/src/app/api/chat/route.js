@@ -100,7 +100,7 @@ export async function POST(request) {
     const rag = await retrieveContext(latest, userProfile.conditions || []);
 
     const model = genAI.getGenerativeModel({
-      model: "gemini-1.5-pro",
+      model: "gemini-pro-latest",
       systemInstruction: systemPrompt(userProfile, rag),
       tools: TOOLS,
       generationConfig: { temperature: 0.7, maxOutputTokens: 1024 },
